@@ -13,3 +13,10 @@ class UserInfoSchema(BaseModel):
 
 class UserData(BaseModel):
     id:int
+
+class Post(BaseModel):
+    title:str
+    content:str
+
+    class Config:
+        orm_mode = True
