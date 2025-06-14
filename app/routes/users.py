@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Depends
 from typing import List
-
 from app.utils import hash_password
-from .. import models, schemas
+from .. import models, schemas, oauth2
 from sqlalchemy.orm import Session
 from ..database import get_db
 
@@ -18,7 +17,7 @@ async def root(db: Session = Depends(get_db)):
     return user
 
 @router.post('/')
-def create_user(user:schemas.UserSchema, db: Session = Depends(get_db)):
+def create_user(user:schemas.UserSchema, db: Session = Depends(get_db), logged_user=Depends(oauth2.get_current_user_id)):
     new_user_dict = user.dict()
     new_user_dict['password'] = hash_password(user.password)
     new_user = models.User(**new_user_dict)
