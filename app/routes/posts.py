@@ -8,7 +8,7 @@ router = APIRouter(
     tags=["Posts"]
 )
 
-@router.get('/')
+@router.get('/', response_model=schemas.UserInfoSchema)
 def view_posts(db: Session = Depends(get_db)):
     users = db.query(models.Posts).all()
     return users

@@ -6,6 +6,7 @@ class UserSchema(BaseModel):
     password: str
 
 class UserInfoSchema(BaseModel):
+    id:int
     email: EmailStr
 
     class Config:
@@ -17,6 +18,16 @@ class UserData(BaseModel):
 class Post(BaseModel):
     title:str
     content:str
+
+    class Config:
+        orm_mode = True
+
+class PostResponse(BaseModel):
+    id:int
+    title:str
+    content:str
+    owner_id:int
+    user_info: UserInfoSchema
 
     class Config:
         orm_mode = True
